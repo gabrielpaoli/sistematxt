@@ -96,7 +96,7 @@
 
     if(isset($resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"]) && $resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"] != ''){
       $field_identificador_del_cliente = $resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"];
-      $field_identificador_del_cliente = str_pad($field_identificador_del_cliente, 7, 0, STR_PAD_RIGHT); //VER QUE ONDA LOS ESPACIOS
+      $field_identificador_del_cliente = str_pad($field_identificador_del_cliente, 22, 0, STR_PAD_RIGHT); //VER QUE ONDA LOS ESPACIOS
       print '<td>' . $field_identificador_del_cliente . '</td>';
     }else{
       $field_identificador_del_cliente = 0000000;      
