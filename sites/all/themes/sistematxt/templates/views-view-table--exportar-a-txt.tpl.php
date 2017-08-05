@@ -32,7 +32,7 @@
 <table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
 
 <?php 
-
+print "test";
 
   if(isset($view->exposed_raw_input["field_fecha_de_carga_value"]["value"]) && isset($view->exposed_raw_input["field_fecha_de_carga_value_1"]["value"])){
     if(isset($view->exposed_raw_input["field_fecha_de_carga_value"]["value"])){
