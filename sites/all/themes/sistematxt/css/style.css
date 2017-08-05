@@ -1,0 +1,9 @@
+/**
+ * Place your custom styles here.
+ */
+
+
+.bg-warning,
+.bg-success{
+	padding: 20px;
+}
