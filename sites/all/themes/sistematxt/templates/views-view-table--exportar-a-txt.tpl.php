@@ -69,7 +69,7 @@
 		print '<tr>';
     if(isset($resultado->_field_data["nid"]["entity"]->field_codigo_interno_banco["und"][0]["value"]) && $resultado->_field_data["nid"]["entity"]->field_codigo_interno_banco["und"][0]["value"] != ''){
       $field_codigo_interno_banco = $resultado->_field_data["nid"]["entity"]->field_codigo_interno_banco["und"][0]["value"];
-      $field_codigo_interno_banco = str_pad($field_codigo_interno_banco, 2, 0, STR_PAD_LEFT);
+      $field_codigo_interno_banco = str_pad($field_codigo_interno_banco, 2, '0', STR_PAD_LEFT);
       print '<td>' . $field_codigo_interno_banco . '</td>';
     }else{
       $field_codigo_interno_banco = 00;      
@@ -78,7 +78,7 @@
 
     if(isset($resultado->_field_data["nid"]["entity"]->field_fecha_vencimiento["und"][0]["value"]) && $resultado->_field_data["nid"]["entity"]->field_fecha_vencimiento["und"][0]["value"] != ''){
       $field_fecha_vencimiento = $resultado->_field_data["nid"]["entity"]->field_fecha_vencimiento["und"][0]["value"];
-      $field_fecha_vencimiento = str_pad($field_fecha_vencimiento, 8, 0, STR_PAD_LEFT);
+      $field_fecha_vencimiento = str_pad($field_fecha_vencimiento, 8, '0', STR_PAD_LEFT);
       print '<td>' . $field_fecha_vencimiento . '</td>';
     }else{
       $field_fecha_vencimiento = 00000000;      
@@ -87,7 +87,7 @@
 
     if(isset($resultado->_field_data["nid"]["entity"]->field_referencia_interna_transac["und"][0]["value"]) && $resultado->_field_data["nid"]["entity"]->field_referencia_interna_transac["und"][0]["value"] != ''){
       $field_referencia_interna_transac = $resultado->_field_data["nid"]["entity"]->field_referencia_interna_transac["und"][0]["value"];
-      $field_referencia_interna_transac = str_pad($field_referencia_interna_transac, 6, 0, STR_PAD_LEFT);
+      $field_referencia_interna_transac = str_pad($field_referencia_interna_transac, 6, '0', STR_PAD_LEFT);
       print '<td>' . $field_referencia_interna_transac . '</td>';
     }else{
       $field_referencia_interna_transac = 000000;      
@@ -96,7 +96,7 @@
 
     if(isset($resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"]) && $resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"] != ''){
       $field_identificador_del_cliente = $resultado->_field_data["nid"]["entity"]->field_identificador_del_cliente["und"][0]["value"];
-      $field_identificador_del_cliente = str_pad($field_identificador_del_cliente, 22, 0, STR_PAD_RIGHT); //VER QUE ONDA LOS ESPACIOS
+      $field_identificador_del_cliente = str_pad($field_identificador_del_cliente, 22, ' ', STR_PAD_RIGHT); //VER QUE ONDA LOS ESPACIOS
       print '<td>' . $field_identificador_del_cliente . '</td>';
     }else{
       $field_identificador_del_cliente = '                      ';      
