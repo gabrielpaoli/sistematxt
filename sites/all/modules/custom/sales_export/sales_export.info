@@ -1,0 +1,4 @@
+name = Sales Export
+description = This module allows the user export selected sales
+core = 7.x
+package = Sales Export

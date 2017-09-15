@@ -1,0 +1,180 @@
+<?php
+
+
+function sales_export_menu() {
+  $items['ajax-update-table-sales'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_update_table_form'),
+    'access arguments' => array('access content'),
+  );
+  $items['ajax-update-table-show-sales'] = array(
+    'page callback' => '_get_ajax_user_data',
+    'access arguments' => array('access content'),
+  ); 
+  return $items;
+}
+
+function ajax_update_table_form($form, &$form_state) {
+
+  $form['cajax_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+    $form['cajax_submit_2'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit 2'),
+    '#ajax' => array(
+      'wrapper' => 'custom-login-wrapper',
+      'callback' => 'sales_export_form_submit_ajax',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+
+	$sales = _get_ajax_user_data();
+
+	$header = array(
+	       'nid' => 'nid',
+				 'type' => 'type',
+				 'title' => 'title',
+				 'field_fecha_de_carga_value' => 'fecha',
+				 'field_codigo_interno_banco_value' => 'codigo',
+				 'field_fecha_vencimiento_value' => 'vencimiento',
+				 'field_referencia_interna_transac_value' => 'referencia int',
+				 'field_identificador_del_cliente_value' => 'id cliente',
+				 'field_tipo_de_moneda_value' => 'moneda',
+				 'field_cbu_bloque_1_value' => 'cbu1',
+				 'field_cbu_bloque_2_value' => 'cbu2',
+				 'field_importe_value' => 'importe',
+				 'field_cuit_de_la_empresa_value' => 'cuit',
+				 'field_descripcion_de_la_prestaci_value' => 'descripcion',
+				 'field_referencia_univoca_del_deb_value' => 'referencia univoca',
+				 'field_referencia_interna_tran_value' => 'referencia interna',
+				 'field_nuevo_identificador_del_cl_value' => 'nuevo id',
+				 'field_codigo_de_rechazo_value' => 'codigo rechazo',
+				 'field_nombre_empresa_value' => 'empresa',
+				 'sales_in_bank_value' => 'sales in bank',
+				 );
+
+	$options = array();
+	foreach ($sales as $sale) {
+	  $options[$sale['nid']] = array(
+	    'nid' => $sale['nid'],
+	    'type' => $sale['type'],
+	    'title' => $sale['title'],
+	    'field_fecha_de_carga_value' => $sale['field_fecha_de_carga_value'],
+	    'field_codigo_interno_banco_value' => $sale['field_codigo_interno_banco_value'],
+	    'field_fecha_vencimiento_value' => $sale['field_fecha_vencimiento_value'],
+	    'field_referencia_interna_transac_value' => $sale['field_referencia_interna_transac_value'],
+	    'field_identificador_del_cliente_value' => $sale['field_identificador_del_cliente_value'],
+	    'field_tipo_de_moneda_value' => $sale['field_tipo_de_moneda_value'],
+	    'field_cbu_bloque_1_value' => $sale['field_cbu_bloque_1_value'],
+	    'field_cbu_bloque_2_value' => $sale['field_cbu_bloque_2_value'],
+	    'field_importe_value' => $sale['field_importe_value'],
+	    'field_cuit_de_la_empresa_value' => $sale['field_cuit_de_la_empresa_value'],
+	    'field_descripcion_de_la_prestaci_value' => $sale['field_descripcion_de_la_prestaci_value'],
+	    'field_referencia_univoca_del_deb_value' => $sale['field_referencia_univoca_del_deb_value'],
+	    'field_referencia_interna_tran_value' => $sale['field_referencia_interna_tran_value'],
+	    'field_nuevo_identificador_del_cl_value' => $sale['field_nuevo_identificador_del_cl_value'],
+	    'field_codigo_de_rechazo_value' => $sale['field_codigo_de_rechazo_value'],
+	    'field_nombre_empresa_value' => $sale['field_nombre_empresa_value'],
+	    'sales_in_bank_value' => $sale['sales_in_bank_value']
+	  );
+	}
+	
+
+
+	$form['table'] = array(
+	  '#type' => 'tableselect',
+	  '#header' => $header,
+	  '#options' => $options,
+	  '#multiple' => TRUE,
+	);
+	
+	$form['pager'] = array('#theme' => 'pager');
+
+  return $form;
+}
+
+function sales_export_form_submit_ajax(){
+	$table = _get_ajax_user_data();
+	return $table;
+}
+
+function ajax_update_table_form_submit($form, &$form_state) {
+	drupal_set_message(''. print_r($form_state["values"]["table"], TRUE) .'');
+}
+
+function _get_ajax_user_data() {
+  $query = db_select('node', 'n')->extend('PagerDefault')->limit(50);
+  $query->leftJoin('field_data_field_fecha_de_carga', 'fdffdc', 'fdffdc.entity_id = n.nid');
+  $query->leftJoin('field_data_field_codigo_interno_banco', 'fdfcib', 'fdfcib.entity_id = n.nid');
+  $query->leftJoin('field_data_field_fecha_vencimiento', 'fdffv', 'fdffv.entity_id = n.nid');
+  $query->leftJoin('field_data_field_referencia_interna_transac', 'fdfrit', 'fdfrit.entity_id = n.nid');
+  $query->leftJoin('field_data_field_identificador_del_cliente', 'fdfidc', 'fdfidc.entity_id = n.nid');
+  $query->leftJoin('field_data_field_tipo_de_moneda', 'fdftdm', 'fdftdm.entity_id = n.nid');
+  $query->leftJoin('field_data_field_cbu_bloque_1', 'fdfcb1', 'fdfcb1.entity_id = n.nid');
+  $query->leftJoin('field_data_field_cbu_bloque_2', 'fdfcb2', 'fdfcb2.entity_id = n.nid');
+  $query->leftJoin('field_data_field_importe', 'fdfi', 'fdfi.entity_id = n.nid');
+  $query->leftJoin('field_data_field_cuit_de_la_empresa', 'fdfcdle', 'fdfcdle.entity_id = n.nid');
+  $query->leftJoin('field_data_field_descripcion_de_la_prestaci', 'fdfddlp', 'fdfddlp.entity_id = n.nid');
+  $query->leftJoin('field_data_field_referencia_univoca_del_deb', 'fdfrudb', 'fdfrudb.entity_id = n.nid');
+  $query->leftJoin('field_data_field_referencia_interna_tran', 'fdfrit2', 'fdfrit2.entity_id = n.nid');
+  $query->leftJoin('field_data_field_nuevo_identificador_del_cl', 'fdfnidc', 'fdfnidc.entity_id = n.nid');
+  $query->leftJoin('field_data_field_codigo_de_rechazo', 'fdfcdr', 'fdfcdr.entity_id = n.nid');
+  $query->leftJoin('field_data_field_nombre_empresa', 'fdfne', 'fdfne.entity_id = n.nid');
+  $query->leftJoin('field_data_sales_in_bank', 'fdfsib', 'fdfsib.entity_id = n.nid');
+
+  $query->fields('n', array('nid', 'type', 'title'));
+  $query->fields('fdffdc', array('field_fecha_de_carga_value'));
+  $query->fields('fdfcib', array('field_codigo_interno_banco_value'));
+  $query->fields('fdffv', array('field_fecha_vencimiento_value'));
+  $query->fields('fdfrit', array('field_referencia_interna_transac_value'));
+  $query->fields('fdfidc', array('field_identificador_del_cliente_value'));
+  $query->fields('fdftdm', array('field_tipo_de_moneda_value'));
+  $query->fields('fdfcb1', array('field_cbu_bloque_1_value'));
+  $query->fields('fdfcb2', array('field_cbu_bloque_2_value'));
+  $query->fields('fdfi', array('field_importe_value'));
+  $query->fields('fdfcdle', array('field_cuit_de_la_empresa_value'));
+  $query->fields('fdfddlp', array('field_descripcion_de_la_prestaci_value'));
+  $query->fields('fdfrudb', array('field_referencia_univoca_del_deb_value'));
+  $query->fields('fdfrit2', array('field_referencia_interna_tran_value'));
+  $query->fields('fdfnidc', array('field_nuevo_identificador_del_cl_value'));
+  $query->fields('fdfcdr', array('field_codigo_de_rechazo_value'));
+  $query->fields('fdfne', array('field_nombre_empresa_value'));
+  $query->fields('fdfsib', array('sales_in_bank_value'));
+
+
+  $results = $query->execute();
+	
+	$rows = array();
+
+  
+  foreach($results as $row) {
+  $rows[] = array('nid' => $row->nid,
+                  'type' => $row->type,
+                  'title' => $row->title,
+                  'field_fecha_de_carga_value' => $row->field_fecha_de_carga_value,
+                  'field_codigo_interno_banco_value' => $row->field_codigo_interno_banco_value,
+                  'field_fecha_vencimiento_value' => $row->field_fecha_vencimiento_value,
+                  'field_referencia_interna_transac_value' => $row->field_referencia_interna_transac_value,
+                  'field_identificador_del_cliente_value' => $row->field_identificador_del_cliente_value,
+                  'field_tipo_de_moneda_value' => $row->field_tipo_de_moneda_value,
+                  'field_cbu_bloque_1_value' => $row->field_cbu_bloque_1_value,
+                  'field_cbu_bloque_2_value' => $row->field_cbu_bloque_2_value,
+                  'field_importe_value' => $row->field_importe_value,
+                  'field_cuit_de_la_empresa_value' => $row->field_cuit_de_la_empresa_value,
+                  'field_descripcion_de_la_prestaci_value' => $row->field_descripcion_de_la_prestaci_value,
+                  'field_referencia_univoca_del_deb_value' => $row->field_referencia_univoca_del_deb_value,
+                  'field_referencia_interna_tran_value' => $row->field_referencia_interna_tran_value,
+                  'field_nuevo_identificador_del_cl_value' => $row->field_nuevo_identificador_del_cl_value,
+                  'field_codigo_de_rechazo_value' => $row->field_codigo_de_rechazo_value,
+                  'field_nombre_empresa_value' => $row->field_nombre_empresa_value,
+                  'sales_in_bank_value' => $row->sales_in_bank_value
+  );
+  }
+  //$output = "" . theme('table', array('header' => $header, 'rows' => $rows )) . "";
+  return $rows;
+}

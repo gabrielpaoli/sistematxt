@@ -1,0 +1,61 @@
+<?php  
+
+/**
+ * Implements hook_enable().
+ *
+ * Create a field. Fields can be created without any needs to attach them to
+ * entities.
+ */
+function sales_export_enable() {
+  $field = array(
+    'field_name' => 'sales_in_bank',
+    'label' => 'Sales in bank',
+    'type' => 'list_boolean',
+    'settings' => array(
+      'allowed_values' => array(
+        '',
+        '',
+      ),
+    ),      
+  );
+  field_create_field($field);
+
+  /**
+   * Bind field to a entity bundle.
+   */
+  $instance = array(
+    'field_name' => $field['field_name'],
+    'entity_type' => 'node',
+    'bundle' => 'venta',
+    'label' => 'Sales in bank',
+    'widget' => array(
+      'type' => 'options_onoff',
+      'settings' => array(
+        'display_label' => TRUE,
+      ),
+    ),
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'type' => 'hidden',
+      ),
+    ),    
+  );
+  field_create_instance($instance);
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * Remove field from node bundle (content type) and then delete the field.
+ */
+function sales_export_disable() {
+  $instance = array(
+    'field_name' => 'sales_in_bank',
+    'entity_type' => 'node',
+    'bundle' => 'venta',
+  );
+  field_delete_instance($instance);
+  field_delete_field($instance['field_name']);
+  print 'Removed ' . $instance['field_name'] . "\n";
+}

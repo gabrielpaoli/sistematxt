@@ -64,6 +64,7 @@
     chmod($_SERVER['DOCUMENT_ROOT'] . "/sites/default/files/archivos/EBT_TOYASRL_".$fecha_archivo.".txt", 0777);
   }
 
+	$txt = '';
   $i = 0;
   foreach($view->result as $resultado){
 		print '<tr>';
@@ -205,8 +206,7 @@
 		print '</tr>';        
 
 
-
-    $txt =  
+    $txt .= 
       $field_codigo_interno_banco . 
       $field_fecha_vencimiento . 
       $field_referencia_interna_transac . 
@@ -221,11 +221,9 @@
       $field_referencia_interna_tran .
       $field_nuevo_identificador_del_cl .
       $field_codigo_de_rechazo .
-      $field_nombre_empresa;
+      $field_nombre_empresa ."\r\n";
 
-    if(isset($fecha_archivo)){
-      fwrite($myfile, $txt . PHP_EOL);
-    }
+
 
     $i++;
 
@@ -237,6 +235,11 @@
     }  
   
   }
+
+  if(isset($fecha_archivo)){
+  	file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/sites/default/files/archivos/EBT_TOYASRL_".$fecha_archivo.".txt", "\xEF\xBB\xBF" . $txt);
+  }
+
 
   print '<div class="mensaje_coincidencias_encontradas">Cantidad de coincidencias encontradas: ' . $i . '</div>';
 
