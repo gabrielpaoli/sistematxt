@@ -237,7 +237,7 @@
   }
 
   if(isset($fecha_archivo)){
-  	file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/sites/default/files/archivos/EBT_TOYASRL_".$fecha_archivo.".txt", "\xEF\xBB\xBF" . $txt);
+  	file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/sites/default/files/archivos/EBT_TOYASRL_".$fecha_archivo.".txt", $txt);
   }
 
 
